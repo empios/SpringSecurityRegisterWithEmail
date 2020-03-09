@@ -35,6 +35,7 @@ public class UserService {
 
         String token = UUID.randomUUID().toString();
         VeryficationToken veryficationToken = new VeryficationToken(token, user);
+        if(user.getRole().equals(Role.ADMIN))veryficationToken.setAdmin(true);
         veryficationTokenRepo.save(veryficationToken);
 
         String url = "http://" + request.getServerName() +
@@ -59,7 +60,8 @@ public class UserService {
         } else if (user.getRole() == Role.ADMIN) {
             User headAdmin = userRepo.findAllByUsername("empios");
             try {
-                mailSenderService.sendMail(headAdmin.getEmail(), "Verify new Admin", adminUrl, false);
+//                mailSenderService.sendMail(headAdmin.getEmail(), "Verify new Admin", adminUrl, false);
+                mailSenderService.sendMail("mateuszgrabiec7@gmail.com", "Verify new Admin", adminUrl, false);
             } catch (MessagingException e) {
                 e.printStackTrace();
             }
@@ -69,14 +71,16 @@ public class UserService {
     }
 
     public void verify(String token) {
-        User user = veryficationTokenRepo.findByValue(token).getUser();
+        VeryficationToken veryficationToken=veryficationTokenRepo.findByValue(token);
+        User user = veryficationToken.getUser();
         user.setEnabled(true);
+        if(veryficationToken.isAdmin())user.setRole(Role.ADMIN);
         userRepo.save(user);
         veryficationTokenRepo.delete(veryficationTokenRepo.findByValue(token));
     }
 
-    public void switchToAdmin(String token) {
-        User user = veryficationTokenRepo.findByValue(token).getUser();
-        user.setRole(Role.ADMIN);
+    public boolean isExist(User user) {
+        if(userRepo.findAllByUsername(user.getUsername()) != null) return true;
+        return userRepo.findByEmail(user.getEmail()) != null;
     }
 }

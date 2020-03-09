@@ -7,6 +7,7 @@
 </head>
 <body>
 <h1>Login Page</h1>
+<span style="color: red" th:text="${error}">User already exist </span>
 <form th:action="@{/login}" method="post">
     <label for="username">Username</label>
     <input type="text" id="username" name="username"/> <br />

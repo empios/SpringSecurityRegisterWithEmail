@@ -10,6 +10,7 @@ public class VeryficationToken {
     private String value;
     @OneToOne
     private User user;
+    private boolean isAdmin=false;
 
     public VeryficationToken() {
     }
@@ -41,5 +42,13 @@ public class VeryficationToken {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public boolean isAdmin() {
+        return isAdmin;
+    }
+
+    public void setAdmin(boolean admin) {
+        isAdmin = admin;
     }
 }
