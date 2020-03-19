@@ -1,8 +1,8 @@
 package pl.wlodarczyk.springregistersecurity.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import pl.wlodarczyk.springregistersecurity.MyEncoder;
 import pl.wlodarczyk.springregistersecurity.models.Role;
 import pl.wlodarczyk.springregistersecurity.models.User;
 import pl.wlodarczyk.springregistersecurity.models.VeryficationToken;
@@ -17,12 +17,12 @@ import java.util.UUID;
 public class UserService {
 
     private UserRepo userRepo;
-    private PasswordEncoder passwordEncoder;
+    private MyEncoder passwordEncoder;
     private VeryficationTokenRepo veryficationTokenRepo;
     private MailSenderService mailSenderService;
 
     @Autowired
-    public UserService(UserRepo userRepo, PasswordEncoder passwordEncoder, VeryficationTokenRepo veryficationTokenRepo, MailSenderService mailSenderService) {
+    public UserService(UserRepo userRepo, MyEncoder passwordEncoder, VeryficationTokenRepo veryficationTokenRepo, MailSenderService mailSenderService) {
         this.userRepo = userRepo;
         this.passwordEncoder = passwordEncoder;
         this.veryficationTokenRepo = veryficationTokenRepo;
